@@ -1,5 +1,5 @@
 from flask import Flask
-import uuid,random
+import uuid
 app=Flask(__name__)
 
 @app.route("/uuid.txt")
@@ -8,4 +8,7 @@ def uuidtxt():
 
 @app.route("/rand/<uuid:seed>")
 def randtxt(seed):
-	return(
+	return(uuid.uuid5(uuid.UUID(seed),uuid.UUID(seed)))
+
+if(__name__=="__main__"):
+	app.run(host="0.0.0.0",port=8080,debug=0)
