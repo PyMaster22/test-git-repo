@@ -1,4 +1,26 @@
-<title>ehh.</title>
+<title>move.</title>
+<style>
+@keyframes fade{
+0%{background-color:#000;left:0ch;top:0ch;}
+25%{background-color:#f00;left:10ch;top:0ch;}
+50%{background-color:#0f0;left:10ch;top:10ch;}
+75%{background-color:#00f;left:0ch;top:10ch;}
+100%{background-color:#000;left:0ch;top:0ch;}
+}
+.fade{
+animation-name:fade;
+animation-duration:4s;
+animation-iteration-count:infinite;
+}
+.box{
+width:10ch;
+height:10ch;
+position:absolute;
+}
+</style>
 <body>
-	<pre>ehh.</pre>
+<div class="fade box" style="animation-delay:0s;"></div>
+<div class="fade box" style="animation-delay:1s;"></div>
+<div class="fade box" style="animation-delay:2s;"></div>
+<div class="fade box" style="animation-delay:3s;"></div>
 </body>
