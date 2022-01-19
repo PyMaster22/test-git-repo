@@ -6,7 +6,7 @@ def t000(code):
 	saves=[]
 	dir_=1
 	"""<0> pushes a 0 on top of the stack.
-<!> pops the top value of the stack and pushes 1 if it's 0 otherwise, it pushes 0.
+<!> pops the top value of the stack and pushes 1 if it's 0, otherwise it pushes 0.
 <s> saves the next position to save states.
 <l> pops the top value of the stack, and if the next value popped is not 0, it goes to the first popped value save state.
 <=> pops two values from the stack and pushes 0 if they aren't equal, 1 otherwise.
@@ -34,7 +34,9 @@ EOF will return to the beginning of the program."""
 		if(code[ptr]=="="):stack.append(int(stack.pop()==stack.pop()))
 		if(code[ptr]=="+"):stack.append(stack.pop()+stack.pop())
 		if(code[ptr]=="-"):stack[-1]-=1
-		if(code[ptr]==";"):stack.pop()
+		if(code[ptr]==";"):
+			if(len(stack)>=1):stack.pop()
+			else:raise Exception("The stack can't be smaller than 0.")
 		if(code[ptr]==":"):stack.append(stack[-1])
 		if(code[ptr]=="o"):
 			tmp1=stack.pop()
@@ -44,7 +46,6 @@ EOF will return to the beginning of the program."""
 			if(stack.pop()==0):
 				ptr+=dir_
 				continue
-		if(code[ptr]=="S"):break
 		if(code[ptr]=="~"):
 			tmp1=stack.pop()
 			tmp2=stack.pop()
@@ -52,4 +53,21 @@ EOF will return to the beginning of the program."""
 			stack.append(tmp2)
 		if(code[ptr]=="`"):dir_*=-1
 ### Another joke. but with a tape.
-def t001
+def t001(code):
+	tape=[0]*30000 # I've just seen this number a lot with tapes.
+	ptr=0
+	tptr=0
+	code="".join([i for i in code if i in "!()g+;:S"])
+	"""figure it out."""
+	while(code[ptr]!="S"):
+		if(code[ptr]=="!"):tape[tptr]=int(not(tape[tptr]))
+		if(code[ptr]=="("):tptr+=1
+		if(code[ptr]==")"):
+			if(tptr>0):tptr-=1
+			else:raise Exception("The pointer can't be negative.")
+		if(code[ptr]=="g"):
+			ptr=tape[tptr]
+			continue
+		if(code[ptr]=="+"):tape[tptr]+=tape[tptr+1]
+		if(code[ptr]==";"):tape[tptr]*=-1
+		if(code[ptr]==":"):tape[tptr]=tape[tptr-1]
